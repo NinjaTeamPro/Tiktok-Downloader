@@ -3,25 +3,25 @@
  * Plugin Name: Tiktok video downloader
  * Plugin URI: https://ninjateam.org
  * Description: Internal template for plugin with OOP, namespace, autoload function.
- * Version: 0.1.0
+ * Version: 1.0
  * Author: Ninja Team
  * Author URI: https://ninjateam.org
- * Text Domain: big-ninja
+ * Text Domain: njt-tiktok
  * Domain Path: /i18n/languages/
  *
  * @package BigPlugin
  */
 
-namespace BigNinja;
+namespace NjtTiktok;
 
 defined('ABSPATH') || exit;
 
-define('BN_PREFIX', 'big-ninja');
-define('BN_VERSION', '0.1.0');
-define('NJT_TK_BN_DOMAIN', 'big-ninja');
-define('BN_PLUGIN_DIR', basename(__DIR__));
-define('BN_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('BN_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('NJT_TK_PREFIX', 'njt_tk');
+define('NJT_TK_VERSION', '1.0');
+define('NJT_TK_DOMAIN', 'njt-tiktok');
+define('NJT_TK_PLUGIN_DIR', basename(__DIR__));
+define('NJT_TK_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('NJT_TK_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
 spl_autoload_register(function ($class) {
     $prefix = __NAMESPACE__; // project-specific namespace prefix
@@ -52,7 +52,7 @@ function init()
     TiktokDownloader\TiktokDownloader::getInstance();
     TiktokDownloader\TiktokAPI::getInstance();
 }
-add_action('plugins_loaded', 'BigNinja\\init');
+add_action('plugins_loaded', 'NjtTiktok\\init');
 
-register_activation_hook(__FILE__, array('BigNinja\\Plugin', 'activate'));
-register_deactivation_hook(__FILE__, array('BigNinja\\Plugin', 'deactivate'));
+register_activation_hook(__FILE__, array('NjtTiktok\\Plugin', 'activate'));
+register_deactivation_hook(__FILE__, array('NjtTiktok\\Plugin', 'deactivate'));

@@ -1,3 +1,6 @@
+<?php
+defined('ABSPATH') || exit;
+?>
 <div id="njt-tk-dialog">
    <div class="njt-tk-popup-video">
       <div class="njt-tk-video-container">
@@ -9,7 +12,7 @@
       </div>
       <div class="njt-tk-content-container njt-flex-content">
         <div class="njt-tk-popup-title">
-          <h3 class="njt-tk-text-title"><?php _e("Your video is ready to download", NJT_TK_BN_DOMAIN);?></h3>
+          <h3 class="njt-tk-text-title"><?php _e("Your video is ready to download", NJT_TK_DOMAIN);?></h3>
         </div>
         <div class="njt-video-content">
           <div class="njt-tk-user-infor">
@@ -26,7 +29,7 @@
             </div>
             <div class="njt-tk-follow">
               <a type="button" class="button njt-btton-follow" href="<?php echo (!empty($dataPopup['username']) ? 'https://www.tiktok.com/@' . esc_html($dataPopup['username']) : 'https://www.tiktok.com/') ?>" target="_blank">
-              <?php _e("View Tiktok", NJT_TK_BN_DOMAIN);?>
+              <?php _e("View Tiktok", NJT_TK_DOMAIN);?>
               </a>
             </div>
           </div>
@@ -39,19 +42,18 @@
               </h2>
           </div>
           <div class="njt-tk-user-action">
-            <span class="njt-plays"><?php echo (!empty($dataPopup['playCount']) ? esc_html($dataPopup['playCount']) : '0') ?> <?php _e("plays", NJT_TK_BN_DOMAIN);?></span> -
-            <span class="njt-likes"><?php echo (!empty($dataPopup['videoLike']) ? esc_html($dataPopup['videoLike']) : '0') ?> <?php _e("likes", NJT_TK_BN_DOMAIN);?></span> -
-            <span class="njt-comments"><?php echo (!empty($dataPopup['videoComment']) ? esc_html($dataPopup['videoComment']) : '') ?> <?php _e("comments", NJT_TK_BN_DOMAIN);?></span>
+            <span class="njt-plays"><?php echo (!empty($dataPopup['playCount']) ? esc_html($dataPopup['playCount']) : '0') ?> <?php _e("plays", NJT_TK_DOMAIN);?></span> -
+            <span class="njt-likes"><?php echo (!empty($dataPopup['videoLike']) ? esc_html($dataPopup['videoLike']) : '0') ?> <?php _e("likes", NJT_TK_DOMAIN);?></span> -
+            <span class="njt-comments"><?php echo (!empty($dataPopup['videoComment']) ? $dataPopup['videoComment'] : '0') ?> <?php _e("comments", NJT_TK_DOMAIN);?></span>
           </div>
           <div class="njt-tk-video-download">
             <form action="<?php echo (admin_url('admin-ajax.php').'?action=njt_tk_download_video') ?>" method="post">
               <input type='hidden' name='njt-tk-settings-security-token' value='<?php echo wp_create_nonce('njt-tk-settings-security-token'); ?>'>
 
               <input type='hidden' name='njt-tk-download-video' value='<?php echo esc_html($dataPopup['videoUrl'])?>'>
-              <input type='hidden' name='njt-tk-download-music' value='<?php echo esc_html($dataPopup['mp3Url'])?>'>
 
               <button type="submit" class="button njt-button-download-no-watermark" name="njt-button-download-no-watermark" value="njt-button-download-no-watermark">
-                <?php _e("Download without Watermark", NJT_TK_BN_DOMAIN);?>
+                <?php _e("Download without Watermark", NJT_TK_DOMAIN);?>
               </button>
               <button type="submit" class="button njt-button-download-watermark" name="njt-button-download-watermark" value="njt-button-download-watermark">
                 <img src="<?php echo (!empty($dataPopup['pluginName']) ? '../wp-content/plugins/' . esc_html($dataPopup['pluginName']) . '/assets/home/img/download-video.svg' : '') ?>">

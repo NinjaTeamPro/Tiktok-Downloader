@@ -15,23 +15,27 @@ const njtTiktokDownloader = {
         (res) => {
           const dataRes = res.data && res.data.dataVideo ? res.data.dataVideo : []
           const searchType = res.data && res.data.searchType ? res.data.searchType : ''
-          console.log(dataRes)
           jQuery(".njt-tk-main-layout-content").empty()
+          jQuery('.njt-tk-search-results').hide()
           if (searchType == 2) {
-            console.log('tesst')
-            const dataVideo = {
-              'action': 'njt_tk_search_videourl',
-              'nonce': wpData.nonce,
-              'dataSearch': dataRes
-            }
-            jQuery.post(
-              wpData.admin_ajax,
-              dataVideo,
-              (data) => {
-                jQuery(".njt-tk-main-layout-content").append(jQuery(data))
-                njtTiktokDownloader.responsiveCss();
+            if (dataRes.videoId) {
+              const dataVideo = {
+                'action': 'njt_tk_search_videourl',
+                'nonce': wpData.nonce,
+                'dataSearch': dataRes
               }
-            )
+              jQuery.post(
+                wpData.admin_ajax,
+                dataVideo,
+                (data) => {
+                  jQuery(".njt-tk-main-layout-content").append(jQuery(data))
+                  njtTiktokDownloader.responsiveCss();
+                }
+              )
+            } else {
+              jQuery('.njt-tk-search-results').show()
+              jQuery('.njt-tk-search-results .search-results-num').text('(0)')
+            }
           } else {
             if (dataRes.length > 0) {
               for (const element of dataRes.slice(0, 9)) {
@@ -57,14 +61,27 @@ const njtTiktokDownloader = {
               }
               jQuery(".pagination").css('display', 'flex')
               jQuery(".paginnation-curent").first().addClass('active')
+
+              //display search results
+              jQuery('.njt-tk-search-results').show()
+              jQuery('.njt-tk-search-results .search-results-num').text(`(${dataRes.length})`)
               //Run fancybox
               njtTiktokDownloader.libFancybox();
               //pagination
               njtTiktokDownloader.pagination(dataRes);
-
+              //set width for content
+              jQuery(window).resize(function () {
+                if (jQuery('.njt-tk-main-layout-content').width() <= 610) {
+                  jQuery('.njt-tk-main-layout-content').addClass('njt-tk-content-halfwidth')
+                } else {
+                  jQuery('.njt-tk-main-layout-content').removeClass('njt-tk-content-halfwidth')
+                }
+              })
+            } else {
+              jQuery('.njt-tk-search-results').show()
+              jQuery('.njt-tk-search-results .search-results-num').text(`(${dataRes.length})`)
             }
           }
-
         }
       );
     })
@@ -99,17 +116,16 @@ const njtTiktokDownloader = {
             datavideo: function () {
               const slideCurrent = jQuery.fancybox.getInstance().current
               return jQuery(slideCurrent)[0].opts.$orig.context.dataset.fancyboxUrl;
-            },
-            beforeShow: function () {
-              const slideCurrent = jQuery.fancybox.getInstance().current
-              if (!jQuery(slideCurrent)[0].opts.$orig.context.dataset.fancyboxUrl) {
-                jQuery.fancybox.close();
-              }
-              njtTiktokDownloader.responsiveCss();
             }
           }
         }
       },
+      beforeShow: function () {
+        const slideCurrent = jQuery.fancybox.getInstance().current
+        if (!jQuery(slideCurrent)[0].opts.$orig.context.dataset.fancyboxUrl) {
+          jQuery.fancybox.close();
+        }
+      }
     });
   },
   pagination(dataRes) {
@@ -119,7 +135,9 @@ const njtTiktokDownloader = {
       jQuery('.paginnation-curent').hide()
       jQuery(this).show()
       jQuery(this).prev().show()
+      jQuery(this).prev().prev().show()
       jQuery(this).next().show()
+      jQuery(this).next().next().show()
       const domItemContentPagination = jQuery('.njt-tk-content-hidden').html()
 
       jQuery('.paginnation-curent').removeClass('active')
@@ -146,7 +164,7 @@ const njtTiktokDownloader = {
 
     })
     jQuery(".pagination-next").on("click", function () {
-      jQuery('.paginnation-curent.active').next().css("display", "block").click()
+      jQuery('.paginnation-curent.active').next().click()
     })
   },
   SmoothScrollTo(idOrName, timelength) {
@@ -158,11 +176,13 @@ const njtTiktokDownloader = {
     });
   },
   responsiveCss() {
-    if (jQuery('.njt-tk-popup-video').width() <= 610) {
-      jQuery('.njt-tk-popup-video').addClass('njt-style-full-width')
-    } else {
-      jQuery('.njt-tk-popup-video').removeClass('njt-style-full-width')
-    }
+    jQuery(window).resize(function () {
+      if (jQuery('.njt-tk-popup-video').width() <= 610) {
+        jQuery('.njt-tk-popup-video').addClass('njt-style-full-width')
+      } else {
+        jQuery('.njt-tk-popup-video').removeClass('njt-style-full-width')
+      }
+    })
   }
 }
 

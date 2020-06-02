@@ -1,0 +1,88 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 2.3.1\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:53
+msgid "Download without Watermark"
+msgstr "Download without Watermark"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:14
+msgid "Enter @username, #hashtag or video url"
+msgstr "Enter @username, #hashtag or video url"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:17
+msgid "Example:"
+msgstr "Example:"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:15
+msgid "Search"
+msgstr "Search"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:21
+msgid "Search results"
+msgstr "Search results"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:25
+msgid "Settings"
+msgstr "Settings"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:33
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:45
+msgid "Text description"
+msgstr "Text description"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:51
+msgid "Text example"
+msgstr "Text example"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:39
+msgid "Text heading"
+msgstr "Text heading"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:29
+msgid "View Tiktok"
+msgstr "View Tiktok"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:12
+msgid "Your video is ready to download"
+msgstr "Your video is ready to download"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:44
+msgid "comments"
+msgstr "comments"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:43
+msgid "likes"
+msgstr "likes"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:42
+msgid "plays"
+msgstr "plays"

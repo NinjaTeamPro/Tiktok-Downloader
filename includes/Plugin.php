@@ -1,5 +1,5 @@
 <?php
-namespace BigNinja;
+namespace NjtTiktok;
 
 defined('ABSPATH') || exit;
 /**

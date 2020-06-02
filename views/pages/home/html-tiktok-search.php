@@ -5,20 +5,22 @@ defined('ABSPATH') || exit;
 <div class="njt-tk-downloader">
   <div>
     <div class="wrap njt-tk-text-center">
-        <h2><?php echo (!empty($this->titokSetting['text_heading']) ? esc_html($this->titokSetting['text_heading']) : '') ?></h2>
+        <h2 class="text-heading"><?php echo (!empty($this->titokSetting['text_heading']) ? esc_html($this->titokSetting['text_heading']) : '') ?></h2>
         <p><?php echo (!empty($this->titokSetting['text_description']) ? esc_html($this->titokSetting['text_description']) : '') ?></p>
     </div>
     <div>
       <div>
-
           <div class="njt-tk-input-search">
-            <input type="search" id="njt-tk-search" name="njt-tk-search" placeholder="<?php _e("Enter @username, #hashtag or video url", NJT_TK_BN_DOMAIN);?>">
-            <button type="button" class="button button-primary njt-tk-button-search" id="njt-tk-button-search"> <?php _e("Search", NJT_TK_BN_DOMAIN);?></button>
+            <input type="search" id="njt-tk-search" name="njt-tk-search" placeholder="<?php _e("Enter @username, #hashtag or video url", NJT_TK_DOMAIN);?>">
+            <button type="button" class="button button-primary njt-tk-button-search" id="njt-tk-button-search"> <?php _e("Search", NJT_TK_DOMAIN);?></button>
           </div>
-
-        <p><?php _e("Example:", NJT_TK_BN_DOMAIN);?> <?php echo (!empty($this->titokSetting['text_example']) ? esc_html($this->titokSetting['text_example']) : '') ?></p>
+        <p><?php _e("Example:", NJT_TK_DOMAIN);?> <?php echo (!empty($this->titokSetting['text_example']) ? esc_html($this->titokSetting['text_example']) : '') ?></p>
       </div>
       <div class="njt-tk-main-layout">
+        <div class="njt-tk-search-results" style="display:none">
+            <span><?php _e("Search results", NJT_TK_DOMAIN);?></span>
+            <span class="search-results-num"></span>
+        </div>
         <div class="njt-tk-main-layout-content">
           <!-- Display content after search -->
         </div>
@@ -33,7 +35,7 @@ defined('ABSPATH') || exit;
               <div class="njt-tk-item-video">
                 <div class="njt-tk-item-image image-card">
                   <div class="video-bottom-infor">
-                    <img src="<?php echo (BN_PLUGIN_URL . '/assets/home/img/multimedia.svg') ?>" class="video-like-icon">
+                    <img src="<?php echo (NJT_TK_PLUGIN_URL . '/assets/home/img/multimedia.svg') ?>" class="video-like-icon">
                     <strong class="video-count">0M</strong>
                   </div>
                 </div>

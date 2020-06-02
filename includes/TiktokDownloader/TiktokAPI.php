@@ -1,5 +1,5 @@
 <?php
-namespace BigNinja\TiktokDownloader;
+namespace NjtTiktok\TiktokDownloader;
 
 defined('ABSPATH') || exit;
 
@@ -47,7 +47,7 @@ class TiktokAPI
             'id' => $userId,
             'minCursor' => 0,
             'maxCursor' => 0,
-            'count' => 100,
+            'count' => 78,
             'type' => 1,
         ), "{$this->apiUrl}/video/feed");
 
@@ -75,7 +75,7 @@ class TiktokAPI
         return $hashtagId;
     }
 
-    public function getDataVideoHashtag($hashtag, $minCursor = 0)
+    public function getDataVideoHashtag($hashtag)
     {
         if (!$hashtag) {
             return;
@@ -87,9 +87,9 @@ class TiktokAPI
 
         $urlVideoHashtag = add_query_arg(array(
             'id' => $hashTagId,
-            'minCursor' => $minCursor,
+            'minCursor' => 0,
             'maxCursor' => 0,
-            'count' => 100,
+            'count' => 78,
             'type' => 3,
         ), "{$this->apiUrl}/video/feed");
 
@@ -114,7 +114,7 @@ class TiktokAPI
 
         foreach ($itemListData as $item) {
             $itemVideo[] = array(
-                'pluginName' => BN_PLUGIN_DIR,
+                'pluginName' => NJT_TK_PLUGIN_DIR,
                 //itemInfos
                 'videoId' => $item['itemInfos']['id'] ? $item['itemInfos']['id'] : '',
                 'createTime' => $this->formatCreatedTime($item['itemInfos']['createTime'] ? $item['itemInfos']['createTime']  : ''),
@@ -132,7 +132,6 @@ class TiktokAPI
                 'avatar' => $item['authorInfos']['covers'][0] ? $item['authorInfos']['covers'][0] : '',
                 //musicInfos
                 'musicId' => $item['musicInfos']['musicId'] ? $item['musicInfos']['musicId'] : '',
-                'mp3Url' => $item['musicInfos']['playUrl'][0] ? $item['musicInfos']['playUrl'][0] : '',
                 'musicName' => $item['musicInfos']['musicName'] ? $item['musicInfos']['musicName'] : '',
                 'authorName' => $item['musicInfos']['authorName'] ? $item['musicInfos']['authorName'] : '' ,
             );
@@ -172,7 +171,7 @@ class TiktokAPI
             return;
         }
         $itemVideo = array(
-            'pluginName' => BN_PLUGIN_DIR,
+            'pluginName' => NJT_TK_PLUGIN_DIR,
             //video data
             'videoId' => $dataSearchVideo['videoData']['itemInfos']['id'] ? $dataSearchVideo['videoData']['itemInfos']['id'] : '',
             'createTime' => $this->formatCreatedTime($dataSearchVideo['videoData']['itemInfos']['createTime'] ? $dataSearchVideo['videoData']['itemInfos']['createTime'] : ''),
@@ -190,7 +189,6 @@ class TiktokAPI
             'avatar' => $dataSearchVideo['videoData']['authorInfos']['covers'][0] ? $dataSearchVideo['videoData']['authorInfos']['covers'][0] : '',
             //musicInfos
             'musicId' => $dataSearchVideo['videoData']['musicInfos']['musicId'] ? $dataSearchVideo['videoData']['musicInfos']['musicId'] : '',
-            'mp3Url' => $dataSearchVideo['videoData']['musicInfos']['playUrl'][0] ? $dataSearchVideo['videoData']['musicInfos']['playUrl'][0] : '',
             'musicName' => $dataSearchVideo['videoData']['musicInfos']['musicName'] ? $dataSearchVideo['videoData']['musicInfos']['musicName'] : '',
             'authorName' => $dataSearchVideo['videoData']['musicInfos']['authorName'] ? $dataSearchVideo['videoData']['musicInfos']['authorName'] : '',
         );
@@ -257,7 +255,7 @@ class TiktokAPI
             return 0;
         }
         if ($n < 1e3) {
-            return n;
+            return $n;
         }
 
         if ($n >= 1e3 && $n < 1e6) {

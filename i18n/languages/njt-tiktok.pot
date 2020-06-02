@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:53
+msgid "Download without Watermark"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:14
+msgid "Enter @username, #hashtag or video url"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:17
+msgid "Example:"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:15
+msgid "Search"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-search.php:21
+msgid "Search results"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:25
+msgid "Settings"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:33
+msgid "Shortcode"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:45
+msgid "Text description"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:51
+msgid "Text example"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/admin/html-admin-tiktok-downloader.php:39
+msgid "Text heading"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:29
+msgid "View Tiktok"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:12
+msgid "Your video is ready to download"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:44
+msgid "comments"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:43
+msgid "likes"
+msgstr ""
+
+#. Text in echo
+#: tiktok-dowloader/views/pages/home/html-tiktok-video-popup.php:42
+msgid "plays"
+msgstr ""

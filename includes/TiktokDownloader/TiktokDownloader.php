@@ -1,9 +1,9 @@
 <?php
-namespace BigNinja\TiktokDownloader;
+namespace NjtTiktok\TiktokDownloader;
 
 defined('ABSPATH') || exit;
 
-use BigNinja\TiktokDownloader\TiktokAPI;
+use NjtTiktok\TiktokDownloader\TiktokAPI;
 
 class TiktokDownloader
 {
@@ -44,7 +44,7 @@ class TiktokDownloader
             update_option('njt_tk_settings', $this->titokSetting);
         }
         add_shortcode($this->titokSetting['text_shortcode'], array($this, 'create_shortcode'));
-        add_action('admin_menu', array($this, 'tiktokDownloader'));
+        add_action('admin_menu', array($this, 'njt_tk_tiktokDownloader'));
         add_action('wp_ajax_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
         add_action('wp_ajax_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));
         add_action('wp_ajax_nopriv_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));
@@ -62,54 +62,51 @@ class TiktokDownloader
     public function homeRegisterEnqueue()
     {
 
-        wp_enqueue_style('jq.css', BN_PLUGIN_URL . '/assets/home/js/jquery/jquery-ui.css');
-        wp_enqueue_script('jquery_min', BN_PLUGIN_URL . '/assets/home/js/jquery/jquery-ui.min.js', array('jquery'));
+        wp_enqueue_style('fancybox.css', NJT_TK_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.css');
+        wp_enqueue_script('fancybox.js', NJT_TK_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.js', array('jquery'));
 
-        wp_enqueue_style('fancybox.css', BN_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.css');
-        wp_enqueue_script('fancybox.js', BN_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.js', array('jquery'));
-
-        wp_register_style('njt-tiktok', BN_PLUGIN_URL . '/assets/home/css/home-tiktok-downloader.css');
+        wp_register_style('njt-tiktok', NJT_TK_PLUGIN_URL . '/assets/home/css/home-tiktok-downloader.css');
         wp_enqueue_style('njt-tiktok');
 
-        wp_register_script('njt-tiktok', BN_PLUGIN_URL . '/assets/home/js/home-tiktok-downloader.js', array('jquery'));
+        wp_register_script('njt-tiktok', NJT_TK_PLUGIN_URL . '/assets/home/js/home-tiktok-downloader.js', array('jquery'));
         wp_enqueue_script('njt-tiktok');
 
         wp_localize_script('njt-tiktok', 'wpData', array(
             'admin_ajax' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce("njt-tk-downloader"),
-            'BN_PLUGIN_URL' => BN_PLUGIN_URL,
-            'viewVideoUrlSearch' => BN_PLUGIN_URL . 'views/pages/home/html-tiktok-search-videourl.php',
+            'NJT_TK_PLUGIN_URL' => NJT_TK_PLUGIN_URL,
+            'viewVideoUrlSearch' => NJT_TK_PLUGIN_URL . 'views/pages/home/html-tiktok-search-videourl.php',
         ));
     }
 
     public function adminRegisterEnqueue()
     {
-        wp_register_style('njt-tiktok-admin', BN_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
+        wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
         wp_enqueue_style('njt-tiktok-admin');
     }
 
-    public function tiktokDownloader()
+    public function njt_tk_tiktokDownloader()
     {
         add_menu_page(
-            __('Custom Menu Title', 'textdomain'),
-            'Tiktok Downloader',
+            __('Tiktok Downloader', NJT_TK_DOMAIN),
+            __('Tiktok Downloader', NJT_TK_DOMAIN),
             'manage_options',
-            'tiktok_video_downloader',
-            array($this, 'adminTiktokDownloader'),
+            __('tiktok_video_downloader', NJT_TK_DOMAIN),
+            array($this, 'njt_tk_adminTiktokDownloader'),
             '',
             9
         );
     }
 
-    public function adminTiktokDownloader()
+    public function njt_tk_adminTiktokDownloader()
     {
-        $viewPath = BN_PLUGIN_PATH . 'views/pages/admin/html-admin-tiktok-downloader.php';
+        $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/admin/html-admin-tiktok-downloader.php';
         include_once $viewPath;
     }
 
     public function create_shortcode()
     {
-        $viewPath = BN_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
+        $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
         include_once $viewPath;
     }
 
@@ -157,7 +154,7 @@ class TiktokDownloader
         }
         $objData = json_decode(stripcslashes($_POST['datavideo']));
         $dataPopup = (array) $objData;
-        $viewPath = BN_PLUGIN_PATH . 'views/pages/home/html-tiktok-video-popup.php';
+        $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-video-popup.php';
         include_once $viewPath;
         exit();
     }
@@ -167,7 +164,7 @@ class TiktokDownloader
             wp_die();
         }
         $dataPopup = $_POST['dataSearch'];
-        $viewPath = BN_PLUGIN_PATH . 'views/pages/home/html-tiktok-video-popup.php';
+        $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-video-popup.php';
         include_once $viewPath;
         exit();
     }
@@ -176,9 +173,7 @@ class TiktokDownloader
         if (!wp_verify_nonce($_POST['njt-tk-settings-security-token'], 'njt-tk-settings-security-token')) {
             wp_die();
         }
-        $file = $_POST['njt-tk-download-watermark'];
         $linkVideo = !empty($_POST['njt-tk-download-video']) ? $_POST['njt-tk-download-video'] : '';
-        $linkMusic = !empty($_POST['njt-tk-download-music']) ? $_POST['njt-tk-download-music'] : '';
 
         if(isset($_POST['njt-button-download-no-watermark'])) {
             $tiktokApi = TiktokApi::getInstance();
