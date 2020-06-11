@@ -125,6 +125,21 @@ const njtTiktokDownloader = {
         if (!jQuery(slideCurrent)[0].opts.$orig.context.dataset.fancyboxUrl) {
           jQuery.fancybox.close();
         }
+      },
+      afterLoad: function () {
+        const textDes = jQuery('.njt-tk-user-detail span').text()
+        const makeArDes = textDes.split(" ")
+        const newArDes = makeArDes.map(function (item) {
+          if (item.indexOf("#") > -1) {
+            let link = item.replace('#', '')
+            return `<a class="njt-tk-link" target="_blank" href="https://www.tiktok.com/tag/${link}"> ${item} </a>`
+          } else if (item.indexOf("@") > -1) {
+            return `<a class="njt-tk-link" target="_blank" href="https://www.tiktok.com/${item}"> ${item} </a>`
+          } else {
+            return item
+          }
+        });
+        jQuery(".njt-tk-user-detail span").html(newArDes.join(" "))
       }
     });
   },

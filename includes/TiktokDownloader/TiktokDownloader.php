@@ -106,8 +106,10 @@ class TiktokDownloader
 
     public function create_shortcode()
     {
+        ob_start();
         $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
         include_once $viewPath;
+        return ob_get_clean();
     }
 
     public function ajaxTiktokSearch()
