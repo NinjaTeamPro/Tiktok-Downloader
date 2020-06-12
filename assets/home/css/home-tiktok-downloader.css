@@ -127,6 +127,7 @@
 .njt-video {
   width: auto;
   max-height: 500px;
+  margin: auto;
 }
 .njt-tk-avatar .img-avatar {
   width: 40px;
@@ -160,15 +161,17 @@
 .njt-tk-music-infor .music-info a:hover {
   box-shadow: none;
 }
-.njt-tk-user-name .user-name {
+#njt-tk-dialog .njt-tk-user-name .user-name {
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 3px;
+  margin-top: 0;
 }
-.njt-tk-user-name .user-nickname {
+#njt-tk-dialog .njt-tk-user-name .user-nickname {
   font-size: 14px;
   font-weight: 400;
   padding-top: 0;
+  margin: 10px 0px;
 }
 .njt-tk-content-container .njt-tk-follow .njt-btton-follow {
   cursor: pointer;

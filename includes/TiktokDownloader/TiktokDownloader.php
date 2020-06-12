@@ -45,11 +45,16 @@ class TiktokDownloader
         }
         add_shortcode($this->titokSetting['text_shortcode'], array($this, 'njt_tk_create_shortcode'));
         add_action('admin_menu', array($this, 'njt_tk_tiktokDownloader'));
+
         add_action('wp_ajax_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
-        add_action('wp_ajax_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));
+        add_action('wp_ajax_nopriv_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
+
+        add_action('wp_ajax_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));        
         add_action('wp_ajax_nopriv_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));
+
         add_action('wp_ajax_njt_tk_search_videourl', array($this, 'njt_tk_searchVideoUrl'));
         add_action('wp_ajax_nopriv_njt_tk_search_videourl', array($this, 'njt_tk_searchVideoUrl'));
+
         add_action('wp_ajax_njt_tk_download_video', array($this, 'njt_tk_downloadVideo'));
         add_action('wp_ajax_nopriv_njt_tk_download_video', array($this, 'njt_tk_downloadVideo'));
     }
@@ -88,8 +93,8 @@ class TiktokDownloader
     public function njt_tk_tiktokDownloader()
     {
         add_menu_page(
-            __('Tiktok Downloader', NJT_TK_DOMAIN),
-            __('Tiktok Downloader', NJT_TK_DOMAIN),
+            __('TikTok Downloader', NJT_TK_DOMAIN),
+            __('TikTok Downloader', NJT_TK_DOMAIN),
             'manage_options',
             __('tiktok_video_downloader', NJT_TK_DOMAIN),
             array($this, 'njt_tk_adminTiktokDownloader'),

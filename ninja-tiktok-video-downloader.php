@@ -1,9 +1,8 @@
 <?php
 /**
- * Plugin Name: Tiktok video downloader
+ * Plugin Name: TikTok Video Downloader
  * Plugin URI: https://ninjateam.org
- * Description: Internal template for plugin with OOP, namespace, autoload function.
- * Version: 1.0
+ * Description: Best TikTok video downloader. Just paste the URL and one click to download.
  * Author: Ninja Team
  * Author URI: https://ninjateam.org
  * Text Domain: njt-tiktok
