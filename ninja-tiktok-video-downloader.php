@@ -9,7 +9,7 @@
  * Text Domain: njt-tiktok
  * Domain Path: /i18n/languages/
  *
- * @package BigPlugin
+ * @package NjtTiktok
  */
 
 namespace NjtTiktok;

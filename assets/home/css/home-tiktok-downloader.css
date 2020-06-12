@@ -23,7 +23,7 @@
   border: none;
   padding: 13px 20px;
   display: inline-block;
-  min-width: 110px;
+  min-width: 120px;
 }
 .njt-tk-input-search #njt-tk-button-search::before {
   content: "";
@@ -170,7 +170,7 @@
   font-weight: 400;
   padding-top: 0;
 }
-.njt-tk-follow .njt-btton-follow {
+.njt-tk-content-container .njt-tk-follow .njt-btton-follow {
   cursor: pointer;
   background-color: transparent;
   color: rgb(254, 44, 85);
@@ -183,11 +183,11 @@
   padding: 10px 20px;
   box-shadow: none;
 }
-.njt-tk-follow .njt-btton-follow:hover {
-  background-color: rgba(18, 18, 18, 0.03);
-  border-color: rgb(254, 44, 85);
-  color: rgb(254, 44, 85);
-  box-shadow: none;
+.njt-tk-content-container .njt-tk-follow .njt-btton-follow:hover {
+  background-color: rgba(18, 18, 18, 0.03) !important;
+  border-color: rgb(254, 44, 85) !important;
+  color: rgb(254, 44, 85) !important;
+  box-shadow: none !important;
 }
 .njt-tk-video-download {
   margin-bottom: 20px;
@@ -291,7 +291,7 @@
 .njt-style-full-width .njt-flex-content {
   flex: 0 0 100%;
 }
-@media screen and (max-width: 610px) {
+@media screen and (max-width: 700px) {
   .njt-tk-content-item {
     flex: 0 0 100%;
   }

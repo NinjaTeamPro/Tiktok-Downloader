@@ -96,7 +96,7 @@ const njtTiktokDownloader = {
   libFancybox() {
     jQuery('.fancybox-thumb').fancybox({
       type: 'ajax',
-      maxWidth: 1000,
+      maxWidth: 700,
       maxHeight: 500,
       fitToView: false,
       autoSize: true,
@@ -191,13 +191,11 @@ const njtTiktokDownloader = {
     });
   },
   responsiveCss() {
-    jQuery(window).resize(function () {
-      if (jQuery('.njt-tk-popup-video').width() <= 610) {
-        jQuery('.njt-tk-popup-video').addClass('njt-style-full-width')
-      } else {
-        jQuery('.njt-tk-popup-video').removeClass('njt-style-full-width')
-      }
-    })
+    if (jQuery('.njt-tk-popup-video').width() <= 700) {
+      jQuery('.njt-tk-popup-video').addClass('njt-style-full-width')
+    } else {
+      jQuery('.njt-tk-popup-video').removeClass('njt-style-full-width')
+    }
   }
 }
 

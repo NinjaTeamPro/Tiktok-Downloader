@@ -43,7 +43,7 @@ class TiktokDownloader
             $this->titokSetting['text_shortcode'] = 'tiktok-download';
             update_option('njt_tk_settings', $this->titokSetting);
         }
-        add_shortcode($this->titokSetting['text_shortcode'], array($this, 'create_shortcode'));
+        add_shortcode($this->titokSetting['text_shortcode'], array($this, 'njt_tk_create_shortcode'));
         add_action('admin_menu', array($this, 'njt_tk_tiktokDownloader'));
         add_action('wp_ajax_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
         add_action('wp_ajax_njt_tk_view_popup', array($this, 'njt_tk_viewPopup'));
@@ -104,7 +104,7 @@ class TiktokDownloader
         include_once $viewPath;
     }
 
-    public function create_shortcode()
+    public function njt_tk_create_shortcode()
     {
         ob_start();
         $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
@@ -180,7 +180,11 @@ class TiktokDownloader
         if(isset($_POST['njt-button-download-no-watermark'])) {
             $tiktokApi = TiktokApi::getInstance();
             $videoId =  $tiktokApi->njt_tk_GetKey($linkVideo);
-            $this->downloadVideoWithoutWaterMark($videoId);
+            if (!$videoId) {
+                $this->downloadDefaultVideoOrMusic($linkVideo, 'video/mp4', 'video-tiktok.mp4');
+            } else {
+                $this->downloadVideoWithoutWaterMark($videoId);
+            }
         } elseif (isset($_POST['njt-button-download-watermark'])) {
             $this->downloadDefaultVideoOrMusic($linkVideo, 'video/mp4', 'video-tiktok.mp4');
         } else{
@@ -204,9 +208,7 @@ class TiktokDownloader
         }
     }
     public function downloadVideoWithoutWaterMark($videoId) {
-        if (!$videoId) {
-            die("Invalid file name!");
-        }
+       
         try {
             $link = 'https://api2.musical.ly/aweme/v1/playwm/?video_id=' . $videoId;
             $ch = curl_init();
