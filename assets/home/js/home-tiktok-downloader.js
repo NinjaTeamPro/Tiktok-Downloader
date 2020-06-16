@@ -196,10 +196,18 @@ const njtTiktokDownloader = {
     } else {
       jQuery('.njt-tk-popup-video').removeClass('njt-style-full-width')
     }
+  },
+  actionEnterToSearch() {
+    jQuery('#njt-tk-search').keypress(function (e) {
+      if (e.which == 13) {
+        jQuery('#njt-tk-button-search').click()
+      }
+    });
   }
 }
 
 jQuery(document).ready(() => {
   njtTiktokDownloader.ajaxTiktokSearch();
   njtTiktokDownloader.eventPrevOrNextPagination();
+  njtTiktokDownloader.actionEnterToSearch();
 })
