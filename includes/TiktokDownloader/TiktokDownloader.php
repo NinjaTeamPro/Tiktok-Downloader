@@ -9,7 +9,7 @@ class TiktokDownloader
 {
     protected static $instance = null;
     public $titokSetting;
-    private $hook_suffix = null;
+    private $hook_suffix = array();
 
     public static function getInstance()
     {
@@ -35,10 +35,6 @@ class TiktokDownloader
         }
         register_shutdown_function(array($this, 'saveOptions'));
 
-        //Register Enqueue
-        add_action('wp_enqueue_scripts', array($this, 'homeRegisterEnqueue'));
-        add_action('admin_enqueue_scripts', array($this, 'adminRegisterEnqueue'));
-
         //creat shortcode
         if (empty($this->titokSetting['text_shortcode'])) {
             $this->titokSetting['text_shortcode'] = 'tiktok-download';
@@ -46,6 +42,10 @@ class TiktokDownloader
         }
         add_shortcode($this->titokSetting['text_shortcode'], array($this, 'njt_tk_create_shortcode'));
         add_action('admin_menu', array($this, 'njt_tk_tiktokDownloader'));
+
+        //Register Enqueue
+        add_action('wp_enqueue_scripts', array($this, 'homeRegisterEnqueue'));
+        add_action('admin_enqueue_scripts', array($this, 'adminRegisterEnqueue'));
 
         add_action('wp_ajax_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
         add_action('wp_ajax_nopriv_njt_tk_tiktok_search', array($this, 'ajaxTiktokSearch'));
@@ -91,6 +91,8 @@ class TiktokDownloader
             wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
             wp_enqueue_style('njt-tiktok-admin');
         }
+        wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/style-icon.css');
+        wp_enqueue_style('njt-tiktok-admin');
     }
 
     public function njt_tk_tiktokDownloader()
