@@ -1,8 +1,9 @@
 <?php
 /**
- * Plugin Name: TikTok Video Downloader
- * Plugin URI: https://ninjateam.org
- * Description: Best TikTok video downloader. Just paste the URL and one click to download.
+ * Plugin Name: Tiktok Video Downloader
+ * Plugin URI: https://ninjateam.org/tiktok-video-downloader
+ * Description: Fastest TikTok video downloader from the URLs.
+ * Version: 1.1
  * Author: Ninja Team
  * Author URI: https://ninjateam.org
  * Text Domain: njt-tiktok
@@ -16,7 +17,7 @@ namespace NjtTiktok;
 defined('ABSPATH') || exit;
 
 define('NJT_TK_PREFIX', 'njt_tk');
-define('NJT_TK_VERSION', '1.0');
+define('NJT_TK_VERSION', '1.1');
 define('NJT_TK_DOMAIN', 'njt-tiktok');
 define('NJT_TK_PLUGIN_DIR', basename(__DIR__));
 define('NJT_TK_PLUGIN_URL', plugin_dir_url(__FILE__));

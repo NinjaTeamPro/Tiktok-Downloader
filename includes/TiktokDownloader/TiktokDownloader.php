@@ -9,6 +9,7 @@ class TiktokDownloader
 {
     protected static $instance = null;
     public $titokSetting;
+    private $hook_suffix = null;
 
     public static function getInstance()
     {
@@ -84,23 +85,26 @@ class TiktokDownloader
         ));
     }
 
-    public function adminRegisterEnqueue()
+    public function adminRegisterEnqueue($suffix)
     {
-        wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
-        wp_enqueue_style('njt-tiktok-admin');
+        if (in_array($suffix, $this->hook_suffix)) {
+            wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
+            wp_enqueue_style('njt-tiktok-admin');
+        }
     }
 
     public function njt_tk_tiktokDownloader()
     {
-        add_menu_page(
+        $settings_suffix = add_menu_page(
             __('TikTok Downloader', NJT_TK_DOMAIN),
             __('TikTok Downloader', NJT_TK_DOMAIN),
             'manage_options',
             __('tiktok_video_downloader', NJT_TK_DOMAIN),
             array($this, 'njt_tk_adminTiktokDownloader'),
-            '',
+            NJT_TK_PLUGIN_URL . 'assets/admin/img/Icon_Tiktok.svg',
             9
         );
+        $this->hook_suffix = array($settings_suffix);
     }
 
     public function njt_tk_adminTiktokDownloader()
