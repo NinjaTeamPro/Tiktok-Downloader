@@ -68,13 +68,13 @@ class TiktokDownloader
     public function homeRegisterEnqueue()
     {
 
-        wp_enqueue_style('fancybox.css', NJT_TK_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.css');
-        wp_enqueue_script('fancybox.js', NJT_TK_PLUGIN_URL . '/assets/home/js/fancybox/jquery.fancybox.js', array('jquery'));
+        wp_enqueue_style('fancybox.css', NJT_TK_PLUGIN_URL . 'assets/home/js/fancybox/jquery.fancybox.css');
+        wp_enqueue_script('fancybox.js', NJT_TK_PLUGIN_URL . 'assets/home/js/fancybox/jquery.fancybox.js', array('jquery'));
 
-        wp_register_style('njt-tiktok', NJT_TK_PLUGIN_URL . '/assets/home/css/home-tiktok-downloader.css');
+        wp_register_style('njt-tiktok', NJT_TK_PLUGIN_URL . 'assets/home/css/home-tiktok-downloader.css');
         wp_enqueue_style('njt-tiktok');
 
-        wp_register_script('njt-tiktok', NJT_TK_PLUGIN_URL . '/assets/home/js/home-tiktok-downloader.js', array('jquery'));
+        wp_register_script('njt-tiktok', NJT_TK_PLUGIN_URL . 'assets/home/js/home-tiktok-downloader.js', array('jquery'));
         wp_enqueue_script('njt-tiktok');
 
         wp_localize_script('njt-tiktok', 'wpData', array(
@@ -88,18 +88,18 @@ class TiktokDownloader
     public function adminRegisterEnqueue($suffix)
     {
         if (in_array($suffix, $this->hook_suffix)) {
-            wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/admin-tiktok-downloader.css');
+            wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . 'assets/admin/css/admin-tiktok-downloader.css');
             wp_enqueue_style('njt-tiktok-admin');
         }
-        wp_register_style('njt-tiktok-admin', NJT_TK_PLUGIN_URL . '/assets/admin/css/style-icon.css');
-        wp_enqueue_style('njt-tiktok-admin');
+        wp_register_style('njt-tiktok-icon', NJT_TK_PLUGIN_URL . 'assets/admin/css/style-icon.css');
+        wp_enqueue_style('njt-tiktok-icon');
     }
 
     public function njt_tk_tiktokDownloader()
     {
         $settings_suffix = add_menu_page(
             __('TikTok Downloader', NJT_TK_DOMAIN),
-            __('TikTok Downloader', NJT_TK_DOMAIN),
+            __('Downloader', NJT_TK_DOMAIN),
             'manage_options',
             __('tiktok_video_downloader', NJT_TK_DOMAIN),
             array($this, 'njt_tk_adminTiktokDownloader'),
@@ -221,7 +221,7 @@ class TiktokDownloader
     public function downloadVideoWithoutWaterMark($videoId) {
        
         try {
-            $link = 'https://api2.musical.ly/aweme/v1/playwm/?video_id=' . $videoId;
+            $link = 'https://api2-16-h2.musical.ly/aweme/v1/play/?video_id='.$videoId.'&vr_type=0&is_play_url=1&source=PackSourceEnum_PUBLISH&media_type=4';
             $ch = curl_init();
             $headers = [
                 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
