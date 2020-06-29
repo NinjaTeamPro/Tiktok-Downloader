@@ -233,7 +233,7 @@ class TiktokAPI
         curl_close($ch);
         $tmp = explode("vid:", $data);
         if (count($tmp) > 1) {
-            $key = trim(explode("%", $tmp[1])[0]);
+            $key = substr($tmp[1], 0, 32);
         } else {
             $key = "";
         }
