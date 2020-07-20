@@ -30,7 +30,7 @@ class TiktokDownloader
                 'text_shortcode' => 'tiktok-download',
                 'text_heading' => 'TikTok Video Downloader',
                 'text_description' => 'Search by Username, Hashtag or Video URL & download video with or without watermark',
-                'text_example' => '@TikTok, #trend, https://www.tiktok.com/@zaheun/video/6811712703208361218',
+                'text_example' => '@TikTok, #trend, https://www.tiktok.com/@ninjateamwp/video/6836997625070259458',
             );
         }
         register_shutdown_function(array($this, 'saveOptions'));
