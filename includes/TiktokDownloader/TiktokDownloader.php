@@ -117,21 +117,6 @@ class TiktokDownloader
 
     public function njt_tk_create_shortcode()
     {
-        $url = 'https://contribute.geeksforgeeks.org/wp-content/uploads/gfg-40.png'; 
-  
-        // Use basename() function to return the base name of file  
-        $file_name = basename($url); 
-           
-        // Use file_get_contents() function to get the file 
-        // from url and use file_put_contents() function to 
-        // save the file by using base name 
-        if(file_put_contents( $file_name,file_get_contents($url))) { 
-            echo "File downloaded successfully"; 
-        } 
-        else { 
-            echo "File downloading failed."; 
-        }
-
         ob_start();
         $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
         include_once $viewPath;
