@@ -117,6 +117,21 @@ class TiktokDownloader
 
     public function njt_tk_create_shortcode()
     {
+        $url = 'https://contribute.geeksforgeeks.org/wp-content/uploads/gfg-40.png'; 
+  
+        // Use basename() function to return the base name of file  
+        $file_name = basename($url); 
+           
+        // Use file_get_contents() function to get the file 
+        // from url and use file_put_contents() function to 
+        // save the file by using base name 
+        if(file_put_contents( $file_name,file_get_contents($url))) { 
+            echo "File downloaded successfully"; 
+        } 
+        else { 
+            echo "File downloading failed."; 
+        }
+
         ob_start();
         $viewPath = NJT_TK_PLUGIN_PATH . 'views/pages/home/html-tiktok-search.php';
         include_once $viewPath;
@@ -187,7 +202,10 @@ class TiktokDownloader
             wp_die();
         }
         $linkVideo = !empty($_POST['njt-tk-download-video']) ? $_POST['njt-tk-download-video'] : '';
+        $pattern = '/(https:\/\/+[a-z0-9]+.tiktokcdn.com)\/[a-z0-9@]*/';
+        $result = preg_match($pattern, $linkVideo);
 
+        if ($result) {
         if(isset($_POST['njt-button-download-no-watermark'])) {
             $tiktokApi = TiktokApi::getInstance();
             $videoId =  $tiktokApi->njt_tk_GetKey($linkVideo);
@@ -202,18 +220,23 @@ class TiktokDownloader
             $this->downloadDefaultVideoOrMusic($linkVideo, 'audio/mpeg', 'music-tiktok.mp3');
         }
         exit();
+        } else {
+            exit('Can not download video');
+        }
     }
 
     public function downloadDefaultVideoOrMusic($linkUrl, $type, $name) {
         if (isset($linkUrl)) {
             $file = urldecode($linkUrl); // Decode URL-encoded string // Decode URL-encoded string
+            $fopen = fopen($file ,"rb");
             header('Content-Description: File Transfer');
             header('Content-Type:'.$type);
             header('Content-Disposition: attachment; filename="' . basename($name) . '"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
-            readfile($file);
+            $fread = fpassthru($fopen);
+            fclose($fopen);
         } else {
             die("Invalid file name!");
         }
@@ -251,13 +274,16 @@ class TiktokDownloader
             }
             curl_exec($ch);
             $redirectURL = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+            $file = urldecode($redirectURL);
+            $fopen = fopen($file ,"rb");
             header('Content-Description: File Transfer');
             header('Content-Type: video/mp4');
             header('Content-Disposition: attachment; filename="' . basename('video-tiktok.mp4') . '"');
             header('Expires: 0');
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
-            readfile($redirectURL);
+            $fread = fpassthru($fopen);
+            fclose($fopen);
         } catch (Exception $e) {
             die('Caught exception: ' . $e->getMessage());
         }
