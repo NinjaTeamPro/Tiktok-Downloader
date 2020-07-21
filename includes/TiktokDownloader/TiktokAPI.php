@@ -243,10 +243,30 @@ class TiktokAPI
     public function njt_tk_jsonDecode($url = null, $args = array())
     {
 
-        $args = wp_parse_args($args, array('timeout' => 0));
-        $response = json_decode(wp_remote_retrieve_body(wp_remote_get($url, $args)), true);
-
-        return (array) $response;
+        $ch = curl_init();
+        $options = array(
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:28.0) Gecko/20100101 Firefox/28.0',
+            CURLOPT_ENCODING       => "utf-8",
+            CURLOPT_AUTOREFERER    => true,
+            CURLOPT_CONNECTTIMEOUT => 30,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_MAXREDIRS      => 10,
+        );
+        curl_setopt_array( $ch, $options );
+        if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+        curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+        $data = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+       	
+        return json_decode($data, true);
     }
 
     public function njt_tk_formatNumber($n)
