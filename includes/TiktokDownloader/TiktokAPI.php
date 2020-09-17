@@ -145,7 +145,37 @@ class TiktokAPI
         if (!$link) {
             return;
         }
-        $makeArrLink = explode('/', $link);
+
+        $ch = curl_init();
+        $headers = [
+            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+            'Accept-Encoding: gzip, deflate, br',
+            'Accept-Language: en-US,en;q=0.9',
+            'Range: bytes=0-200000',
+        ];
+
+        $options = array(
+            CURLOPT_URL => $link,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => false,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:28.0) Gecko/20100101 Firefox/28.0',
+            CURLOPT_ENCODING => "utf-8",
+            CURLOPT_AUTOREFERER => true,
+            CURLOPT_CONNECTTIMEOUT => 30,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_MAXREDIRS => 10,
+        );
+        curl_setopt_array($ch, $options);
+        if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
+            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        }
+        curl_exec($ch);
+        $redirectURL = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);       
+        $makeArrLink = explode('/', $redirectURL);
         $sliceArrLink = array_slice($makeArrLink, -3);
         $userName = $sliceArrLink[0];
         $videoId = $sliceArrLink[2];
@@ -214,7 +244,7 @@ class TiktokAPI
             CURLOPT_HEADER => false,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:28.0) Gecko/20100101 Firefox/28.0',
+            CURLOPT_USERAGENT => 'okhttp',
             CURLOPT_ENCODING => "utf-8",
             CURLOPT_AUTOREFERER => true,
             CURLOPT_CONNECTTIMEOUT => 30,
@@ -242,7 +272,6 @@ class TiktokAPI
 
     public function njt_tk_jsonDecode($url = null, $args = array())
     {
-
         $ch = curl_init();
         $options = array(
             CURLOPT_URL            => $url,

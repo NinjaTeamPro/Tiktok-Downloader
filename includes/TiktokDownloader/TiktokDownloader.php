@@ -191,20 +191,20 @@ class TiktokDownloader
         $result = preg_match($pattern, $linkVideo);
 
         if ($result) {
-        if(isset($_POST['njt-button-download-no-watermark'])) {
-            $tiktokApi = TiktokApi::getInstance();
-            $videoId =  $tiktokApi->njt_tk_GetKey($linkVideo);
-            if (!$videoId) {
+            if(isset($_POST['njt-button-download-no-watermark'])) {
+                $tiktokApi = TiktokApi::getInstance();
+                $videoId =  $tiktokApi->njt_tk_GetKey($linkVideo);
+                if (!$videoId) {
+                    $this->downloadDefaultVideoOrMusic($linkVideo, 'video/mp4', 'video-tiktok.mp4');
+                } else {
+                    $this->downloadVideoWithoutWaterMark($videoId);
+                }
+            } elseif (isset($_POST['njt-button-download-watermark'])) {
                 $this->downloadDefaultVideoOrMusic($linkVideo, 'video/mp4', 'video-tiktok.mp4');
-            } else {
-                $this->downloadVideoWithoutWaterMark($videoId);
+            } else{
+                $this->downloadDefaultVideoOrMusic($linkVideo, 'audio/mpeg', 'music-tiktok.mp3');
             }
-        } elseif (isset($_POST['njt-button-download-watermark'])) {
-            $this->downloadDefaultVideoOrMusic($linkVideo, 'video/mp4', 'video-tiktok.mp4');
-        } else{
-            $this->downloadDefaultVideoOrMusic($linkVideo, 'audio/mpeg', 'music-tiktok.mp3');
-        }
-        exit();
+            exit();
         } else {
             exit('Can not download video');
         }
