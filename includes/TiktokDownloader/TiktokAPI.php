@@ -119,7 +119,7 @@ class TiktokAPI
                 'videoId' => $item['itemInfos']['id'] ? $item['itemInfos']['id'] : '',
                 'createTime' => $this->formatCreatedTime($item['itemInfos']['createTime'] ? $item['itemInfos']['createTime']  : ''),
                 'covers' => $item['itemInfos']['covers'][0] ? $item['itemInfos']['covers'][0] :'',
-                'videoUrl' => $item['itemInfos']['video']['urls'][0] ? $item['itemInfos']['video']['urls'][0] : '',
+                'videoUrl' => $item['itemInfos']['video']['urls'][0] ? $this->replaceLinkUrl($item['itemInfos']['video']['urls'][0]) : '',
                 'videoDes' => $item['itemInfos']['text'] ? $item['itemInfos']['text'] : '',
                 'videoLike' => $this->njt_tk_formatNumber($item['itemInfos']['diggCount'] ? $item['itemInfos']['diggCount'] : ''),
                 'videoShare' => $this->njt_tk_formatNumber($item['itemInfos']['shareCount'] ? $item['itemInfos']['shareCount'] : ''),
@@ -206,7 +206,7 @@ class TiktokAPI
             'videoId' => $dataSearchVideo['videoData']['itemInfos']['id'] ? $dataSearchVideo['videoData']['itemInfos']['id'] : '',
             'createTime' => $this->formatCreatedTime($dataSearchVideo['videoData']['itemInfos']['createTime'] ? $dataSearchVideo['videoData']['itemInfos']['createTime'] : ''),
             'covers' => $dataSearchVideo['videoData']['itemInfos']['covers'][0] ? $dataSearchVideo['videoData']['itemInfos']['covers'][0] : '',
-            'videoUrl' => $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] ? $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] : '',
+            'videoUrl' => $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] ? $this->replaceLinkUrl($dataSearchVideo['videoData']['itemInfos']['video']['urls'][0]) : '',
             'videoDes' => $dataSearchVideo['videoData']['itemInfos']['text'] ? $dataSearchVideo['videoData']['itemInfos']['text'] : '',
             'videoLike' => $this->njt_tk_formatNumber($dataSearchVideo['videoData']['itemInfos']['diggCount'] ? $dataSearchVideo['videoData']['itemInfos']['diggCount'] : ''),
             'videoShare' => $this->njt_tk_formatNumber($dataSearchVideo['videoData']['itemInfos']['shareCount'] ? $dataSearchVideo['videoData']['itemInfos']['shareCount'] :''),
@@ -357,5 +357,21 @@ class TiktokAPI
         }
 
         return round($elapsed / $YEAR) . ' Year ago';
+    }
+
+    public function replaceLinkUrl($linkUrl)
+    {   
+        $arrExplodeLink = explode(".", $linkUrl);
+
+        if ( strstr( $arrExplodeLink[0], 'v19' ) ) {
+            $replaceHeadLink = str_replace($arrExplodeLink[0], "https://v19",$linkUrl);
+            return $replaceHeadLink;
+        }
+        
+        if ( strstr( $arrExplodeLink[0], 'v16' ) ) { 
+            $replaceHeadLink = str_replace($arrExplodeLink[0], "https://v16",$linkUrl);
+             return $replaceHeadLink;
+        }
+     
     }
 }
