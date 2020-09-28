@@ -59,8 +59,8 @@ class TiktokDownloader
         add_action('wp_ajax_njt_tk_download_video', array($this, 'njt_tk_downloadVideo'));
         add_action('wp_ajax_nopriv_njt_tk_download_video', array($this, 'njt_tk_downloadVideo'));
 
-        add_action('wp_ajax_njt_tk_video_stream', array($this, 'video_stream'));
-        add_action('wp_ajax_nopriv_njt_tk_video_stream', array($this, 'video_stream'));
+        add_action('wp_ajax_njt_tk_video_stream', array($this, 'njt_tk_video_stream'));
+        add_action('wp_ajax_nopriv_njt_tk_video_stream', array($this, 'njt_tk_video_stream'));
     }
     public function saveOptions()
     {
@@ -190,7 +190,7 @@ class TiktokDownloader
             wp_die();
         }
         $linkVideo = !empty($_POST['njt-tk-download-video']) ? $_POST['njt-tk-download-video'] : '';
-        $pattern = '/(https:\/\/+[a-z0-9]+-web-newkey.tiktokcdn.com)\/[a-z0-9@]*/';
+        $pattern = '/(https:\/\/+[a-z0-9-]+.tiktokcdn.com)\/[a-z0-9@]*/';
         $result = preg_match($pattern, $linkVideo);
 
         if ($result) {
@@ -294,12 +294,12 @@ class TiktokDownloader
         }
     }
 
-    public function video_stream()
+    public function njt_tk_video_stream()
     {
-        $this->stream(esc_url(urldecode($_GET['url'])));
+        $this->njt_tk_stream(esc_url(urldecode($_GET['url'])));
     }
 
-    public function stream($url)
+    public function njt_tk_stream($url)
     {
         $ch = curl_init();
 
@@ -321,8 +321,8 @@ class TiktokDownloader
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_RETURNTRANSFER => 0,
             CURLOPT_HEADER => 0,
-            CURLOPT_HEADERFUNCTION => array($this, 'headerCallback'),
-            CURLOPT_WRITEFUNCTION => array($this, 'bodyCallback')
+            CURLOPT_HEADERFUNCTION => array($this, 'njt_tk_headerCallback'),
+            CURLOPT_WRITEFUNCTION => array($this, 'njt_tk_bodyCallback')
         );
 
         curl_setopt_array($ch, $options);
@@ -332,45 +332,35 @@ class TiktokDownloader
         return true;
     }
 
-    public function headerCallback($ch, $data)
+    public function njt_tk_headerCallback($ch, $data)
     {
-        // this should be first line
         if (preg_match('/HTTP\/[\d.]+\s*(\d+)/', $data, $matches)) {
             $status_code = $matches[1];
-
-            // if Forbidden or Not Found -> those are "valid" statuses too
             if (200 == $status_code || 206 == $status_code || 403 == $status_code || 404 == $status_code) {
                 $this->headers_sent = true;
-                $this->sendHeader(rtrim($data));
+                $this->njt_tk_sendHeader(rtrim($data));
             }
         } else {
-
-            // only headers we wish to forward back to the client
             $forward = ['content-type', 'content-length', 'accept-ranges', 'content-range'];
-
             $parts = explode(':', $data, 2);
-
             if ($this->headers_sent && count($parts) == 2 && in_array(trim(strtolower($parts[0])), $forward)) {
-                $this->sendHeader(rtrim($data));
+                $this->njt_tk_sendHeader(rtrim($data));
             }
         }
-
         return strlen($data);
     }
 
-    public function bodyCallback($ch, $data)
+    public function njt_tk_bodyCallback($ch, $data)
     {
         if (true) {
             echo $data;
             flush();
         }
-
         return strlen($data);
     }
 
-    protected function sendHeader($header)
+    protected function njt_tk_sendHeader($header)
     {
-
         header($header);
     }
 }

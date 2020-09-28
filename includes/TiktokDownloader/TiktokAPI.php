@@ -264,15 +264,6 @@ class TiktokAPI
     {
 
         if (!($response = json_decode(wp_remote_retrieve_body($json), true)) || 200 !== wp_remote_retrieve_response_code($json)) {
-
-        //        if (isset($response['error']['message'])) {
-        //          $this->message = $response['error']['message'];
-        //          return array(
-        //              'error' => 1,
-        //              'message' => $this->message
-        //          );
-        //        }
-
             if (is_wp_error($json)) {
                 $response = array(
                 'error' => 1,
@@ -296,12 +287,7 @@ class TiktokAPI
       'timeout' => 29
     ));
 
-    //error_log(json_encode($args, JSON_PRETTY_PRINT));
-    //error_log(json_encode($url, JSON_PRETTY_PRINT));
-
     $response =  wp_remote_get($url, $args);
-
-    //error_log(json_encode($response, JSON_PRETTY_PRINT));
 
     $response = $this->validateResponse($response);
 
