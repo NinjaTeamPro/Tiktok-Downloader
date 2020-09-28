@@ -119,7 +119,7 @@ class TiktokAPI
                 'videoId' => $item['itemInfos']['id'] ? $item['itemInfos']['id'] : '',
                 'createTime' => $this->formatCreatedTime($item['itemInfos']['createTime'] ? $item['itemInfos']['createTime']  : ''),
                 'covers' => $item['itemInfos']['covers'][0] ? $item['itemInfos']['covers'][0] :'',
-                'videoUrl' => $item['itemInfos']['video']['urls'][0] ? $this->replaceLinkUrl($item['itemInfos']['video']['urls'][0]) : '',
+                'videoUrl' => $item['itemInfos']['video']['urls'][0] ? $item['itemInfos']['video']['urls'][0] : '',
                 'videoDes' => $item['itemInfos']['text'] ? $item['itemInfos']['text'] : '',
                 'videoLike' => $this->njt_tk_formatNumber($item['itemInfos']['diggCount'] ? $item['itemInfos']['diggCount'] : ''),
                 'videoShare' => $this->njt_tk_formatNumber($item['itemInfos']['shareCount'] ? $item['itemInfos']['shareCount'] : ''),
@@ -206,7 +206,7 @@ class TiktokAPI
             'videoId' => $dataSearchVideo['videoData']['itemInfos']['id'] ? $dataSearchVideo['videoData']['itemInfos']['id'] : '',
             'createTime' => $this->formatCreatedTime($dataSearchVideo['videoData']['itemInfos']['createTime'] ? $dataSearchVideo['videoData']['itemInfos']['createTime'] : ''),
             'covers' => $dataSearchVideo['videoData']['itemInfos']['covers'][0] ? $dataSearchVideo['videoData']['itemInfos']['covers'][0] : '',
-            'videoUrl' => $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] ? $this->replaceLinkUrl($dataSearchVideo['videoData']['itemInfos']['video']['urls'][0]) : '',
+            'videoUrl' => $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] ? $dataSearchVideo['videoData']['itemInfos']['video']['urls'][0] : '',
             'videoDes' => $dataSearchVideo['videoData']['itemInfos']['text'] ? $dataSearchVideo['videoData']['itemInfos']['text'] : '',
             'videoLike' => $this->njt_tk_formatNumber($dataSearchVideo['videoData']['itemInfos']['diggCount'] ? $dataSearchVideo['videoData']['itemInfos']['diggCount'] : ''),
             'videoShare' => $this->njt_tk_formatNumber($dataSearchVideo['videoData']['itemInfos']['shareCount'] ? $dataSearchVideo['videoData']['itemInfos']['shareCount'] :''),
@@ -231,56 +231,15 @@ class TiktokAPI
             return;
         }
         $ch = curl_init();
-        $headers = [
-            'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-            'Accept-Encoding: gzip, deflate, br',
-            'Accept-Language: en-US,en;q=0.9',
-            'Range: bytes=0-200000',
-        ];
-
         $options = array(
-            CURLOPT_URL => $playable,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT => 'okhttp',
-            CURLOPT_ENCODING => "utf-8",
-            CURLOPT_AUTOREFERER => true,
-            CURLOPT_CONNECTTIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => false,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_MAXREDIRS => 10,
-        );
-        curl_setopt_array($ch, $options);
-        if (defined('CURLOPT_IPRESOLVE') && defined('CURL_IPRESOLVE_V4')) {
-            curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        }
-        $data = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $redirectURL = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-        curl_close($ch);
-        $tmp = explode("vid:", $data);
-        if (count($tmp) > 1) {
-            $key = substr($tmp[1], 0, 32);
-        } else {
-            $key = "";
-        }
-        return $key;
-    }
-
-    public function njt_tk_jsonDecode($url = null, $args = array())
-    {
-        $ch = curl_init();
-        $options = array(
-            CURLOPT_URL            => $url,
+            CURLOPT_URL            => $playable,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_HEADER         => false,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:28.0) Gecko/20100101 Firefox/28.0',
+            CURLOPT_USERAGENT      => 'okhttp',
             CURLOPT_ENCODING       => "utf-8",
-            CURLOPT_AUTOREFERER    => true,
+            CURLOPT_AUTOREFERER    => false,
+            CURLOPT_REFERER        => 'https://www.tiktok.com/',
             CURLOPT_CONNECTTIMEOUT => 30,
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_SSL_VERIFYPEER => false,
@@ -292,11 +251,63 @@ class TiktokAPI
         curl_setopt($ch, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
         }
         $data = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-       	
-        return json_decode($data, true);
+        $tmp = explode("vid:", $data);
+        if (count($tmp) > 1) {
+            $key = substr($tmp[1], 0, 32);
+        } else {
+            $key = "";
+        }
+        return $key;
     }
+
+    public function validateResponse($json = null)
+    {
+
+        if (!($response = json_decode(wp_remote_retrieve_body($json), true)) || 200 !== wp_remote_retrieve_response_code($json)) {
+
+        //        if (isset($response['error']['message'])) {
+        //          $this->message = $response['error']['message'];
+        //          return array(
+        //              'error' => 1,
+        //              'message' => $this->message
+        //          );
+        //        }
+
+            if (is_wp_error($json)) {
+                $response = array(
+                'error' => 1,
+                'message' => $json->get_error_message()
+                );
+            } else {
+                $response = array(
+                'error' => 1,
+                'message' => esc_html__('Unknow error occurred, please try again', 'wp-tiktok-feed')
+                );
+            }
+        }
+
+        return $response;
+    }
+
+  public function njt_tk_jsonDecode($url = null, $args = array())
+  {
+
+    $args = wp_parse_args($args, array(
+      'timeout' => 29
+    ));
+
+    //error_log(json_encode($args, JSON_PRETTY_PRINT));
+    //error_log(json_encode($url, JSON_PRETTY_PRINT));
+
+    $response =  wp_remote_get($url, $args);
+
+    //error_log(json_encode($response, JSON_PRETTY_PRINT));
+
+    $response = $this->validateResponse($response);
+
+    return (array) $response;
+  }
+
 
     public function njt_tk_formatNumber($n)
     {
@@ -357,21 +368,5 @@ class TiktokAPI
         }
 
         return round($elapsed / $YEAR) . ' Year ago';
-    }
-
-    public function replaceLinkUrl($linkUrl)
-    {   
-        $arrExplodeLink = explode(".", $linkUrl);
-
-        if ( strstr( $arrExplodeLink[0], 'v19' ) ) {
-            $replaceHeadLink = str_replace($arrExplodeLink[0], "https://v19",$linkUrl);
-            return $replaceHeadLink;
-        }
-        
-        if ( strstr( $arrExplodeLink[0], 'v16' ) ) { 
-            $replaceHeadLink = str_replace($arrExplodeLink[0], "https://v16",$linkUrl);
-             return $replaceHeadLink;
-        }
-     
     }
 }

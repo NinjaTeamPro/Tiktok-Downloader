@@ -6,7 +6,7 @@ defined('ABSPATH') || exit;
       <div class="njt-tk-video-container">
         <div class="njt-tk-item-image">
           <video controls class="njt-video">
-            <source src="<?php echo (!empty($dataPopup['videoUrl']) ? esc_html($dataPopup['videoUrl']) : '') ?>" type="video/mp4">
+            <source src="<?php echo (!empty($dataPopup['videoUrl']) ? esc_html(admin_url("admin-ajax.php?action=njt_tk_video_stream&url={$dataPopup['videoUrl']}")) : '') ?>" type="video/mp4">
           </video>
         </div>
       </div>
