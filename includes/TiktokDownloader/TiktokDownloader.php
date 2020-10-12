@@ -129,9 +129,9 @@ class TiktokDownloader
     public function ajaxTiktokSearch()
     {
 
-        // if (!wp_verify_nonce($_POST['nonce'], 'njt-tk-downloader')) {
-        //     wp_die();
-        // }
+        if (!wp_verify_nonce($_POST['nonce'], 'njt-tk-downloader')) {
+            wp_die();
+        }
 
         //check_ajax_referer('njt-tk-downloader', 'nonce', true);
         // type = 1-> user

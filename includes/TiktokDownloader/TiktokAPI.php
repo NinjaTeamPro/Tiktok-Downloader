@@ -270,7 +270,7 @@ class TiktokAPI
             } else {
                 $response = array(
                 'error' => 1,
-                'message' => esc_html__('Unknow error occurred, please try again', 'wp-tiktok-feed')
+                'message' => esc_html__('Unknow error occurred, please try again')
                 );
             }
         }
